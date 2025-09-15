@@ -1,0 +1,347 @@
+/* 素材包主题样式 - 深色科技风 */
+:root {
+  /* 深色科技风主色调 */
+  --ink: #0B1220;           /* 深墨 */
+  --ink-light: #1a2332;     /* 深蓝灰 */
+  --ink-lighter: #2d3748;   /* 中蓝灰 */
+  --ink-dark: #050a14;      /* 更深墨 */
+  
+  /* 科技感高光色 */
+  --orchid: #8A7AFF;        /* 高光紫 */
+  --orchid-light: #a394ff;  /* 亮紫 */
+  --orchid-dark: #6b5bff;   /* 深紫 */
+  --orchid-glow: #8A7AFF;   /* 发光紫 */
+  
+  /* 科技感辅助色 */
+  --teal: #00D1B2;          /* 冷辉青 */
+  --teal-light: #33dbbf;    /* 亮青 */
+  --teal-dark: #00b894;     /* 深青 */
+  
+  /* 科技感强调色 */
+  --cyan: #00FFFF;          /* 青色 */
+  --cyan-light: #4DFFFF;    /* 亮青 */
+  --cyan-dark: #00CCCC;     /* 深青 */
+  
+  /* 深色背景系统 */
+  --bg-primary: #0B1220;    /* 主背景 */
+  --bg-secondary: #1a2332;  /* 次背景 */
+  --bg-tertiary: #2d3748;   /* 第三级背景 */
+  --bg-card: #1e293b;       /* 卡片背景 */
+  --bg-overlay: rgba(11, 18, 32, 0.8); /* 遮罩背景 */
+  
+  /* 文字颜色系统 */
+  --text-primary: #F5F2EA;  /* 主文字 */
+  --text-secondary: #CBD5E1; /* 次文字 */
+  --text-muted: #94A3B8;    /* 弱化文字 */
+  --text-accent: #8A7AFF;   /* 强调文字 */
+  
+  /* 边框和分割线 */
+  --border-primary: #334155; /* 主边框 */
+  --border-secondary: #475569; /* 次边框 */
+  --border-accent: #8A7AFF; /* 强调边框 */
+  --border-glow: rgba(138, 122, 255, 0.3); /* 发光边框 */
+  
+  /* 功能色彩 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* 透明度变体 */
+  --ink-10: rgba(11, 18, 32, 0.1);
+  --ink-20: rgba(11, 18, 32, 0.2);
+  --ink-50: rgba(11, 18, 32, 0.5);
+  --orchid-10: rgba(138, 122, 255, 0.1);
+  --orchid-20: rgba(138, 122, 255, 0.2);
+  --orchid-50: rgba(138, 122, 255, 0.5);
+  --teal-10: rgba(0, 209, 178, 0.1);
+  --teal-20: rgba(0, 209, 178, 0.2);
+  --teal-50: rgba(0, 209, 178, 0.5);
+  
+  /* 阴影系统 */
+  --shadow-sm: 0 2px 4px rgba(11, 18, 32, 0.3);
+  --shadow-md: 0 4px 12px rgba(11, 18, 32, 0.4);
+  --shadow-lg: 0 8px 24px rgba(11, 18, 32, 0.5);
+  --shadow-glow: 0 0 20px rgba(138, 122, 255, 0.3);
+}
+
+/* 暗色主题 - 深色科技风 */
+[data-theme="dark"] {
+  --bg-primary: #0B1220;
+  --bg-secondary: #1a2332;
+  --bg-tertiary: #2d3748;
+  --bg-card: #1e293b;
+  --text-primary: #F5F2EA;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border-primary: #334155;
+  --border-secondary: #475569;
+}
+
+/* 默认深色主题 */
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 通用素材包样式 */
+.material-icon {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.material-icon.large {
+  width: 32px;
+  height: 32px;
+}
+
+.material-icon.small {
+  width: 16px;
+  height: 16px;
+}
+
+.material-divider {
+  width: 100%;
+  height: auto;
+  max-height: 60px;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.material-badge {
+  width: 48px;
+  height: 48px;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.material-sparkle {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  animation: sparkle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes sparkle-glow {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
+.material-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Hero 背景样式 */
+.hero-background {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--bg-overlay) 0%,
+    rgba(11, 18, 32, 0.4) 50%,
+    var(--bg-overlay) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--parchment);
+  padding: 2rem;
+}
+
+/* 分类图标网格 */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-item:hover {
+  transform: translateY(-4px);
+  background: var(--bg-secondary);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.category-item.active {
+  background: var(--orchid-20);
+  border-color: var(--orchid);
+  color: var(--orchid);
+  box-shadow: var(--shadow-glow);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+  stroke: currentColor;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.category-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 装饰分割线容器 */
+.divider-container {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem 0;
+}
+
+.divider-container .material-divider {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 徽章样式 */
+.badge-container {
+  position: relative;
+  display: inline-block;
+}
+
+.badge-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--orchid);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 2;
+  box-shadow: var(--shadow-glow);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 闪光装饰 */
+.sparkle-decoration {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sparkle-decoration.top-right {
+  top: 8px;
+  right: 8px;
+}
+
+.sparkle-decoration.top-left {
+  top: 8px;
+  left: 8px;
+}
+
+.sparkle-decoration.bottom-right {
+  bottom: 8px;
+  right: 8px;
+}
+
+.sparkle-decoration.bottom-left {
+  bottom: 8px;
+  left: 8px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .category-item {
+    padding: 0.75rem;
+  }
+  
+  .category-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .category-label {
+    font-size: 0.8rem;
+  }
+  
+  .hero-background {
+    min-height: 300px;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .category-item {
+    padding: 0.5rem;
+  }
+  
+  .category-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .category-label {
+    font-size: 0.7rem;
+  }
+}
+

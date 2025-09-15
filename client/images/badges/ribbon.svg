@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+<defs>
+
+</defs>
+<rect width="240" height="240" fill="none"/>
+
+<rect x="48" y="48" width="144" height="120" rx="16" fill="none" stroke="currentColor" stroke-width="10"/>
+<path d="M72 168 L72 220 L96 196 L120 220 L120 168" fill="none" stroke="currentColor" stroke-width="10"/>
+<path d="M168 168 L168 220 L144 196 L120 220" fill="none" stroke="currentColor" stroke-width="10"/>
+
+</svg>

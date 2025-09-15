@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novel Reading Site</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>📚 Novel Reading Site</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <a href="../index/index.html" class="nav-btn active">
+                        📖 Library
+                    </a>
+                    <a href="../favorites/index.html" class="nav-btn">
+                        ❤️ Favorites
+                    </a>
+                    <a href="../category/index.html" class="nav-btn">
+                        📚 Categories
+                    </a>
+                    <a href="../ranking/index.html" class="nav-btn">
+                        🏆 Rankings
+                    </a>
+                    <a href="../search/index.html" class="nav-btn">
+                        🔍 Search
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Top Banner Ad -->
+        <div class="ad-banner-top">
+            <div class="container">
+                <div class="ad-content" @click="handleAdClick('top-banner')">
+                    <span class="ad-label">Ad</span>
+                    <div class="ad-placeholder">
+                        <h3>📢 Ad Space Available</h3>
+                        <p>This space is available for your advertisement. Contact us for more information</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section with Aurora Night Background -->
+            <div class="hero-background" :style="{ backgroundImage: `url('../../images/hero/${currentHero}.svg')` }">
+                <div class="hero-content">
+                    <h1 class="hero-title">📚 Explore the Wonderful World of Novels</h1>
+                    <p class="hero-subtitle">From fantasy adventures to sci-fi futures, from martial arts to modern urban stories</p>
+                    
+                    <!-- Theme Switcher -->
+                    <div class="theme-switcher">
+                        <button 
+                            v-for="hero in availableHeroes" 
+                            :key="hero"
+                            @click="switchHero(hero)"
+                            class="theme-btn"
+                            :class="{ active: currentHero === hero }"
+                        >
+                            {{ getHeroLabel(hero) }}
+                        </button>
+                    </div>
+                    
+                    <!-- Category Icons Grid -->
+                    <div class="category-grid">
+                        <a href="#" class="category-item active" @click="filterByCategory('all')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/fantasy.svg"></use>
+                            </svg>
+                            <span class="category-label">All</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('fantasy')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/fantasy.svg"></use>
+                            </svg>
+                            <span class="category-label">Fantasy</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('scifi')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/scifi.svg"></use>
+                            </svg>
+                            <span class="category-label">Sci-Fi</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('romance')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/romance.svg"></use>
+                            </svg>
+                            <span class="category-label">Romance</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('mystery')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/mystery.svg"></use>
+                            </svg>
+                            <span class="category-label">Mystery</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('wuxia')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/wuxia.svg"></use>
+                            </svg>
+                            <span class="category-label">Wuxia</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('slice_of_life')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/slice_of_life.svg"></use>
+                            </svg>
+                            <span class="category-label">Slice of Life</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('comedy')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/comedy.svg"></use>
+                            </svg>
+                            <span class="category-label">Comedy</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('horror')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/horror.svg"></use>
+                            </svg>
+                            <span class="category-label">Horror</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('thriller')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/thriller.svg"></use>
+                            </svg>
+                            <span class="category-label">Thriller</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('cyberpunk')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/cyberpunk.svg"></use>
+                            </svg>
+                            <span class="category-label">Cyberpunk</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('fanfic')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/fanfic.svg"></use>
+                            </svg>
+                            <span class="category-label">Fanfic</span>
+                        </a>
+                        <a href="#" class="category-item" @click="filterByCategory('historical')">
+                            <svg class="category-icon" viewBox="0 0 256 256">
+                                <use href="../../images/icons/historical.svg"></use>
+                            </svg>
+                            <span class="category-label">Historical</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Ads Layout -->
+            <div class="content-with-sidebars">
+                <!-- Left Sidebar Ad -->
+                <div class="left-sidebar-ad">
+                    <div class="sidebar-ad-sticky">
+                        <span class="ad-label">Ad</span>
+                        <div class="sidebar-ad-content" @click="handleAdClick('left-sidebar')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Left sidebar ad space, perfect for showcasing your products and services</p>
+                                <button class="sidebar-ad-btn">Contact Us</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Second Left Ad -->
+                        <div class="sidebar-ad-content second-ad" @click="handleAdClick('left-sidebar-2')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Second left sidebar ad space to boost brand exposure</p>
+                                <button class="sidebar-ad-btn">Book Now</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Third Left Ad -->
+                        <div class="sidebar-ad-content third-ad" @click="handleAdClick('left-sidebar-3')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Third left sidebar ad space for precise target audience reach</p>
+                                <button class="sidebar-ad-btn">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="main-content-area">
+                    <div class="container">
+                <!-- Library Welcome Section with Stats -->
+                <div class="library-welcome">
+                    <h2>📖 Welcome to Novel Library</h2>
+                    <div class="welcome-stats">
+                        <div class="welcome-stat">
+                            <span class="stat-number">{{ displayNovels.length }}</span>
+                            <span class="stat-label">Displayed Novels</span>
+                        </div>
+                        <div class="welcome-stat">
+                            <span class="stat-number">{{ completedNovels }}</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="welcome-stat">
+                            <span class="stat-number">{{ ongoingNovels }}</span>
+                            <span class="stat-label">Ongoing</span>
+                        </div>
+                        <div class="welcome-stat">
+                            <span class="stat-number">{{ favorites.length }}</span>
+                            <span class="stat-label">My Favorites</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Novels Section -->
+                <div v-if="!loading && novels.length > 0" class="featured-section">
+                    <h3 class="section-title">
+                        📚 {{ selectedCategory === 'all' ? 'All Novels' : getCategoryLabel(selectedCategory) + ' Novels' }}
+                    </h3>
+                    
+                    <!-- Decorative Divider -->
+                    <div class="divider-container">
+                        <svg class="material-divider" viewBox="0 0 1200 120">
+                            <use href="../../images/dividers/sparkle.svg#sparkle"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Main novels library -->
+                <div v-if="loading" class="loading">Loading novels...</div>
+                <div v-else-if="novels.length === 0" class="empty-state">
+                    <p>No novel data available</p>
+                </div>
+                <div v-else class="novels-grid">
+                    <!-- All novels -->
+                    <div v-for="(novel, index) in displayNovels" :key="novel.id">
+                        <!-- Novel Card -->
+                        <div class="novel-card" @click="startReading(novel)">
+                            <!-- Sparkle Decoration -->
+                            <div class="sparkle-decoration top-right">
+                                <svg class="material-sparkle" viewBox="0 0 64 64">
+                                    <use href="../../images/sparkles/sparkle-6.svg#sparkle-6"></use>
+                                </svg>
+                            </div>
+                            
+                            <!-- Status Badge -->
+                            <div class="badge-container">
+                                <svg class="material-badge" viewBox="0 0 240 240">
+                                    <use href="../../images/badges/rosette.svg#rosette"></use>
+                                </svg>
+                                <div class="badge-overlay">{{ novel.isCompleted ? 'Completed' : 'Ongoing' }}</div>
+                            </div>
+                            
+                            <img :src="novel.cover" :alt="novel.title" class="novel-cover">
+                            <div class="novel-title">{{ novel.title }}</div>
+                            <div class="novel-author">Author: {{ novel.author }}</div>
+                            <div class="novel-category">{{ translateCategory(novel.category) }}</div>
+                            <div class="novel-description">{{ novel.description }}</div>
+                            <div class="novel-stats">
+                                <span class="read-count">Reads: {{ formatReadCount(novel.readCount) }}</span>
+                                <span class="status" :class="{ completed: novel.isCompleted, ongoing: !novel.isCompleted }">
+                                    {{ novel.isCompleted ? 'Completed' : 'Ongoing' }}
+                                </span>
+                            </div>
+                            <div class="novel-actions">
+                                <button 
+                                    class="favorite-btn" 
+                                    :class="{ favorited: novel.isFavorited }"
+                                    @click.stop="toggleFavorite(novel.id)"
+                                >
+                                    {{ novel.isFavorited ? '❤️ Favorited' : '🤍 Favorite' }}
+                                </button>
+                                
+                                <!-- Sparkle decoration for favorite button -->
+                                <div class="sparkle-decoration bottom-left" v-if="novel.isFavorited">
+                                    <svg class="material-sparkle" viewBox="0 0 64 64">
+                                        <use href="../../images/sparkles/sparkle-4.svg#sparkle-4"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Middle Content Ad (every 6th novel) -->
+                        <div v-if="(index + 1) % 6 === 0 && index < displayNovels.length - 1" class="ad-middle-content">
+                            <span class="ad-label">Ad</span>
+                            <div class="ad-content" @click="handleAdClick('middle-content')">
+                                <div class="ad-text">
+                                    <h3>📢 Ad Space Available</h3>
+                                    <p>Middle content ad space, naturally displays your ads during user reading</p>
+                                    <button class="ad-cta-btn">Book Now →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorative Divider before Bottom Ad -->
+                <div class="divider-container">
+                    <svg class="material-divider" viewBox="0 0 1200 120">
+                        <use href="../../images/dividers/wave.svg#wave"></use>
+                    </svg>
+                </div>
+                
+                <!-- Bottom Page Ad -->
+                <div class="ad-banner-bottom">
+                    <div class="ad-content" @click="handleAdClick('bottom-banner')">
+                        <span class="ad-label">Ad</span>
+                        <div class="ad-placeholder">
+                            <h3>📢 Ad Space Available</h3>
+                            <p>Bottom banner ad space, the last display opportunity before page end, perfect for brand promotion</p>
+                            <div class="app-download-buttons">
+                                <button class="download-btn ios">Contact Us</button>
+                                <button class="download-btn android">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                    <!-- End Container -->
+                </div>
+                <!-- End Main Content Area -->
+
+                <!-- Right Sidebar Ad -->
+                <div class="right-sidebar-ad">
+                    <div class="sidebar-ad-sticky">
+                        <span class="ad-label">Ad</span>
+                        <div class="sidebar-ad-content" @click="handleAdClick('right-sidebar')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Right sidebar ad space, displayed alongside content to increase user attention</p>
+                                <button class="sidebar-ad-btn">Contact Us</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Second Right Ad -->
+                        <div class="sidebar-ad-content second-ad" @click="handleAdClick('right-sidebar-2')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Second right sidebar ad space for continuous brand exposure</p>
+                                <button class="sidebar-ad-btn">Book Now</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Third Right Ad -->
+                        <div class="sidebar-ad-content third-ad" @click="handleAdClick('right-sidebar-3')">
+                            <div class="ad-text-only">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Third right sidebar ad space for precise target audience reach</p>
+                                <button class="sidebar-ad-btn">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Content with Sidebars -->
+            
+            <!-- Back to Top Button -->
+            <div class="back-to-top-container">
+                <button 
+                    class="back-to-top-btn"
+                    @click="scrollToTop"
+                    v-show="showBackToTop"
+                >
+                    <svg class="material-sparkle" viewBox="0 0 64 64">
+                        <use href="../../images/sparkles/sparkle-8.svg#sparkle-8"></use>
+                    </svg>
+                    <span>Back to Top</span>
+                </button>
+            </div>
+            
+            <!-- Test Content for Scrolling -->
+            <div style="height: 1000px; background: linear-gradient(to bottom, transparent, var(--bg-secondary)); margin-top: 50px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                <p>Scroll test area - This content ensures the page has enough height to test sticky positioning</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

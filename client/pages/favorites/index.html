@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>❤️ My Favorites</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <a href="../index/index.html" class="nav-btn">
+                        📖 Library
+                    </a>
+                    <a href="../favorites/index.html" class="nav-btn active">
+                        ❤️ Favorites
+                    </a>
+                    <a href="../category/index.html" class="nav-btn">
+                        📚 Categories
+                    </a>
+                    <a href="../ranking/index.html" class="nav-btn">
+                        🏆 Rankings
+                    </a>
+                    <a href="../search/index.html" class="nav-btn">
+                        🔍 Search
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Favorites Stats -->
+                <div class="favorites-stats">
+                    <div class="stats-item">
+                        <span class="stats-number">{{ favoriteNovels.length }}</span>
+                        <span class="stats-label">Total Favorites</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-number">{{ completedFavorites }}</span>
+                        <span class="stats-label">Completed</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-number">{{ ongoingFavorites }}</span>
+                        <span class="stats-label">Ongoing</span>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div v-if="loading" class="loading">Loading your favorites...</div>
+
+                <!-- Empty State -->
+                <div v-else-if="favoriteNovels.length === 0" class="empty-favorites">
+                    <div class="empty-icon">💔</div>
+                    <h2>No Favorites Yet</h2>
+                    <p>Start exploring and add novels to your favorites!</p>
+                    <a href="../index/index.html" class="explore-btn">
+                        📖 Explore Novels
+                    </a>
+                </div>
+
+                <!-- Favorites Grid -->
+                <div v-else class="favorites-grid">
+                    <div v-for="novel in favoriteNovels" :key="novel.id" class="favorite-card" @click="startReading(novel)">
+                        <div class="favorite-badge">❤️</div>
+                        <img :src="novel.cover" :alt="novel.title" class="favorite-cover">
+                        <div class="favorite-title">{{ novel.title }}</div>
+                        <div class="favorite-author">Author: {{ novel.author }}</div>
+                        <div class="favorite-category">{{ translateCategory(novel.category) }}</div>
+                        <div class="favorite-description">{{ novel.description }}</div>
+                        <div class="favorite-stats">
+                            <span class="favorite-stat">
+                                <span class="stat-icon">👁️</span>
+                                <span class="stat-value">{{ formatReadCount(novel.readCount) }}</span>
+                            </span>
+                            <span class="favorite-stat">
+                                <span class="stat-icon">📅</span>
+                                <span class="stat-value">{{ formatDate(novel.updateTime) }}</span>
+                            </span>
+                            <span class="favorite-stat" :class="{ completed: novel.isCompleted, ongoing: !novel.isCompleted }">
+                                <span class="stat-icon">{{ novel.isCompleted ? '✅' : '🔄' }}</span>
+                                <span class="stat-value">{{ novel.isCompleted ? 'Completed' : 'Ongoing' }}</span>
+                            </span>
+                        </div>
+                        <button 
+                            class="remove-favorite-btn"
+                            @click.stop="removeFavorite(novel.id)"
+                            title="Remove from favorites"
+                        >
+                            💔 Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

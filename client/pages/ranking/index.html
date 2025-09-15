@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankings - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>🏆 Novel Rankings</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <a href="../index/index.html" class="nav-btn">
+                        📖 Library
+                    </a>
+                    <a href="../favorites/index.html" class="nav-btn">
+                        ❤️ Favorites
+                    </a>
+                    <a href="../category/index.html" class="nav-btn">
+                        📚 Categories
+                    </a>
+                    <a href="../ranking/index.html" class="nav-btn active">
+                        🏆 Rankings
+                    </a>
+                    <a href="../search/index.html" class="nav-btn">
+                        🔍 Search
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Ranking Tabs -->
+                <div class="ranking-tabs">
+                    <button 
+                        class="ranking-tab" 
+                        :class="{ active: selectedRanking === 'popular' }" 
+                        @click="setRanking('popular')"
+                    >
+                        🔥 Most Popular
+                    </button>
+                    <button 
+                        class="ranking-tab" 
+                        :class="{ active: selectedRanking === 'latest' }" 
+                        @click="setRanking('latest')"
+                    >
+                        🆕 Latest Updates
+                    </button>
+                    <button 
+                        class="ranking-tab" 
+                        :class="{ active: selectedRanking === 'completed' }" 
+                        @click="setRanking('completed')"
+                    >
+                        ✅ Recently Completed
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div v-if="loading" class="loading">Loading rankings...</div>
+
+                <!-- Rankings List -->
+                <div v-else class="rankings-list">
+                    <div 
+                        v-for="(novel, index) in rankedNovels" 
+                        :key="novel.id" 
+                        class="ranking-item"
+                        @click="startReading(novel)"
+                    >
+                        <!-- Ranking Badge -->
+                        <div class="ranking-badge" :class="getRankingClass(index)">
+                            <span class="rank-number">{{ index + 1 }}</span>
+                            <span class="rank-icon">{{ getRankingIcon(index) }}</span>
+                        </div>
+
+                        <!-- Novel Cover -->
+                        <img :src="novel.cover" :alt="novel.title" class="ranking-cover">
+
+                        <!-- Novel Info -->
+                        <div class="ranking-info">
+                            <h3 class="ranking-title">{{ novel.title }}</h3>
+                            <p class="ranking-author">Author: {{ novel.author }}</p>
+                            <p class="ranking-category">{{ translateCategory(novel.category) }}</p>
+                            <p class="ranking-description">{{ novel.description }}</p>
+                            
+                            <div class="ranking-stats">
+                                <span class="stat-item">
+                                    <span class="stat-icon">👁️</span>
+                                    <span class="stat-value">{{ formatReadCount(novel.readCount) }}</span>
+                                </span>
+                                <span class="stat-item">
+                                    <span class="stat-icon">📅</span>
+                                    <span class="stat-value">{{ formatDate(novel.updateTime) }}</span>
+                                </span>
+                                <span class="stat-item" :class="{ completed: novel.isCompleted, ongoing: !novel.isCompleted }">
+                                    <span class="stat-icon">{{ novel.isCompleted ? '✅' : '🔄' }}</span>
+                                    <span class="stat-value">{{ novel.isCompleted ? 'Completed' : 'Ongoing' }}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Favorite Button -->
+                        <button 
+                            class="ranking-favorite-btn" 
+                            :class="{ favorited: novel.isFavorited }"
+                            @click.stop="toggleFavorite(novel.id)"
+                        >
+                            {{ novel.isFavorited ? '💖' : '🤍' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+/* 通用样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background-color: var(--bg-primary);
+    line-height: 1.6;
+    color: var(--text-primary);
+    /* 防复制样式 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 头部样式 */
+.header {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    color: var(--text-primary);
+    padding: 1rem 0;
+    box-shadow: var(--shadow-lg);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+/* 阅读页面头部 */
+.reading-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.back-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-card);
+    border: 2px solid var(--border-primary);
+    color: var(--text-primary);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+}
+
+.back-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.novel-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    color: var(--text-primary);
+}
+
+.novel-author {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* 主内容区域 */
+.main-content {
+    padding: 2rem 0;
+    min-height: calc(100vh - 120px);
+}
+
+/* 阅读内容布局 */
+.reading-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    min-height: 600px;
+}
+
+/* 章节侧边栏 */
+.chapters-sidebar {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-primary);
+    height: fit-content;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.chapters-sidebar h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.chapters-list {
+    list-style: none;
+}
+
+.chapter-item {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+}
+
+.chapter-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-accent);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.chapter-item.active {
+    background: linear-gradient(135deg, var(--orchid) 0%, var(--orchid-dark) 100%);
+    color: white;
+    box-shadow: var(--shadow-glow);
+}
+
+/* 章节内容区域 */
+.chapter-content {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-primary);
+}
+
+.chapter-title {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-primary);
+}
+
+.chapter-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    text-align: justify;
+    /* 强化防复制 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: auto;
+}
+
+.chapter-body .paragraph {
+    margin-bottom: 1.2rem;
+    text-indent: 2em;
+}
+
+/* 章节导航样式 */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-primary);
+    gap: 1rem;
+}
+
+.chapter-navigation .nav-btn {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, var(--orchid) 0%, var(--orchid-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    box-shadow: var(--shadow-sm);
+}
+
+.chapter-navigation .nav-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.chapter-navigation .nav-btn:disabled {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    border: 1px solid var(--border-primary);
+}
+
+/* 加载和空状态 */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .reading-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .chapters-sidebar {
+        order: 2;
+        max-height: 300px;
+    }
+
+    .chapter-content {
+        order: 1;
+        padding: 1rem;
+    }
+
+    .reading-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .novel-title {
+        text-align: left;
+        font-size: 1.5rem;
+    }
+    
+    .chapter-title {
+        font-size: 1.5rem;
+    }
+    
+    .chapter-body {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .chapter-navigation .nav-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 1rem 0;
+    }
+    
+    .chapter-content {
+        padding: 1rem;
+    }
+    
+    .chapter-body {
+        font-size: 0.95rem;
+    }
+}
+
+/* 夜间模式 - 深色科技风 */
+body.night-mode {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    /* 夜间模式下的防复制 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body.night-mode .chapter-content {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    /* 夜间模式章节内容防复制 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body.night-mode .chapters-sidebar {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+body.night-mode .chapter-item {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+body.night-mode .chapter-item:hover {
+    background-color: var(--bg-tertiary);
+}
+
+body.night-mode .chapter-item.active {
+    background: linear-gradient(135deg, var(--orchid) 0%, var(--orchid-dark) 100%);
+}
+
+/* 防复制增强样式 */
+.chapter-content {
+    position: relative;
+}
+
+.chapter-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 禁用图片拖拽和保存 */
+img {
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* 允许按钮和链接正常交互 */
+button, a, .nav-btn, .chapter-item, .back-btn, .favorite-btn {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: auto;
+}
+
+/* 输入框允许选择（如果有的话） */
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    pointer-events: auto;
+}
+
+/* 护眼模式功能面板 */
+.eye-protection-panel {
+    transition: all 0.3s ease;
+}
+
+.eye-protection-panel:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+    background: var(--bg-secondary) !important;
+}
+
+/* 夜间模式下的护眼模式面板 */
+body.night-mode .eye-protection-panel {
+    background: #2d4a2d !important;
+    border-color: #4a6a4a !important;
+}
+
+body.night-mode .eye-protection-panel:hover {
+    background: #3d5a3d !important;
+}
+
+body.night-mode .eye-protection-panel .function-text h4 {
+    color: #a5d6a7 !important;
+}
+
+body.night-mode .eye-protection-panel .function-text p {
+    color: #81c784 !important;
+}
+
+body.night-mode .eye-protection-panel span {
+    color: #a5d6a7 !important;
+}
+
+/* 完整的夜间模式样式 */
+body.night-mode {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+body.night-mode .header {
+    background: linear-gradient(135deg, #2c3e50 0%, #3a3a3a 100%) !important;
+}
+
+body.night-mode .main-content {
+    background-color: #1a1a1a !important;
+}
+
+body.night-mode .reading-content {
+    background-color: #1a1a1a !important;
+}
+
+body.night-mode .chapters-sidebar {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+}
+
+body.night-mode .chapters-sidebar h3 {
+    color: #e0e0e0 !important;
+}
+
+body.night-mode .chapter-item {
+    color: var(--text-secondary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.night-mode .chapter-item:hover {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .chapter-item.active {
+    background: var(--orchid-20) !important;
+    color: var(--orchid) !important;
+}
+
+body.night-mode .chapter-content {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .chapter-title {
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .chapter-body {
+    color: var(--text-primary) !important;
+    background: var(--bg-card) !important;
+}
+
+body.night-mode .chapter-navigation {
+    background: var(--bg-card) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.night-mode .nav-btn {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.night-mode .nav-btn:hover:not(:disabled) {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .nav-btn:disabled {
+    background: var(--bg-secondary) !important;
+    color: var(--text-muted) !important;
+}
+
+body.night-mode .copyright-notice {
+    background: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+}
+
+body.night-mode .reading-ad,
+body.night-mode .reading-ad-bottom {
+    background: var(--bg-card) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.night-mode .reading-ad .ad-content,
+body.night-mode .reading-ad-bottom .ad-content {
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .reading-ad h3,
+body.night-mode .reading-ad h4,
+body.night-mode .reading-ad-bottom h3 {
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .collect-btn {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+body.night-mode .collect-btn:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+body.night-mode .collect-btn.collected {
+    background: var(--orchid) !important;
+    color: white !important;
+}
+
+body.night-mode .loading {
+    color: var(--text-primary) !important;
+}
+
+body.night-mode .empty-state {
+    color: var(--text-secondary) !important;
+}
+
+/* 夜间模式过渡动画 */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header,
+.main-content,
+.reading-content,
+.chapters-sidebar,
+.chapter-content,
+.chapter-navigation,
+.nav-btn,
+.chapter-item,
+.reading-ad,
+.reading-ad-bottom,
+.collect-btn {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

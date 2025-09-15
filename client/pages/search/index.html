@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>🔍 Search Novels</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <a href="../index/index.html" class="nav-btn">
+                        📖 Library
+                    </a>
+                    <a href="../favorites/index.html" class="nav-btn">
+                        ❤️ Favorites
+                    </a>
+                    <a href="../category/index.html" class="nav-btn">
+                        📚 Categories
+                    </a>
+                    <a href="../ranking/index.html" class="nav-btn">
+                        🏆 Rankings
+                    </a>
+                    <a href="../search/index.html" class="nav-btn active">
+                        🔍 Search
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Search Box -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input
+                            type="text"
+                            v-model="searchQuery"
+                            @input="performSearch"
+                            @keyup.enter="performSearch"
+                            placeholder="Search for novels, authors, or keywords..."
+                            class="search-input"
+                        >
+                        <button @click="performSearch" class="search-button">
+                            🔍 Search
+                        </button>
+                    </div>
+                    
+                    <!-- Search Filters -->
+                    <div class="search-filters">
+                        <select v-model="searchCategory" @change="performSearch" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option v-for="category in categories" :key="category" :value="category">
+                                {{ translateCategory(category) }}
+                            </option>
+                        </select>
+                        
+                        <select v-model="searchStatus" @change="performSearch" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="completed">Completed</option>
+                            <option value="ongoing">Ongoing</option>
+                        </select>
+                        
+                        <select v-model="sortBy" @change="performSearch" class="filter-select">
+                            <option value="relevance">Relevance</option>
+                            <option value="popularity">Popularity</option>
+                            <option value="latest">Latest Updates</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div v-if="hasSearched">
+                    <!-- Results Header -->
+                    <div class="results-header">
+                        <h2>Search Results</h2>
+                        <span class="results-count">{{ searchResults.length }} novels found</span>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div v-if="searching" class="loading">Searching...</div>
+
+                    <!-- No Results -->
+                    <div v-else-if="searchResults.length === 0" class="no-results">
+                        <p>😔 No novels found</p>
+                        <p>Try different keywords or filters</p>
+                    </div>
+
+                    <!-- Results Grid -->
+                    <div v-else class="search-results">
+                        <div v-for="novel in searchResults" :key="novel.id" class="search-result-item" @click="startReading(novel)">
+                            <img :src="novel.cover" :alt="novel.title" class="result-cover">
+                            <div class="result-info">
+                                <h3 class="result-title" v-html="highlightSearchTerm(novel.title)"></h3>
+                                <p class="result-author" v-html="highlightSearchTerm(novel.author)"></p>
+                                <p class="result-category">{{ translateCategory(novel.category) }}</p>
+                                <p class="result-description" v-html="highlightSearchTerm(novel.description)"></p>
+                                
+                                <div class="result-stats">
+                                    <span class="result-stat">
+                                        <span class="stat-icon">👁️</span>
+                                        <span class="stat-value">{{ formatReadCount(novel.readCount) }}</span>
+                                    </span>
+                                    <span class="result-stat">
+                                        <span class="stat-icon">📅</span>
+                                        <span class="stat-value">{{ formatDate(novel.updateTime) }}</span>
+                                    </span>
+                                    <span class="result-stat" :class="{ completed: novel.isCompleted, ongoing: !novel.isCompleted }">
+                                        <span class="stat-icon">{{ novel.isCompleted ? '✅' : '🔄' }}</span>
+                                        <span class="stat-value">{{ novel.isCompleted ? 'Completed' : 'Ongoing' }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                class="result-favorite-btn" 
+                                :class="{ favorited: novel.isFavorited }"
+                                @click.stop="toggleFavorite(novel.id)"
+                            >
+                                {{ novel.isFavorited ? '💖' : '🤍' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Searches (when no search) -->
+                <div v-else class="popular-searches">
+                    <h2>🔥 Popular Search Terms</h2>
+                    <div class="popular-tags">
+                        <button 
+                            v-for="tag in popularTags" 
+                            :key="tag"
+                            class="popular-tag"
+                            @click="quickSearch(tag)"
+                        >
+                            {{ tag }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

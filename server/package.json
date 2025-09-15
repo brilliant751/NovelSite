@@ -1,0 +1,25 @@
+{
+  "name": "novel-server",
+  "version": "1.0.0",
+  "description": "小说网站后端服务",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "novel",
+    "express",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC"
+}

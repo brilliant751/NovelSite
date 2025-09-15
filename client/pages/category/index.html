@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>📚 Novel Categories</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <a href="../index/index.html" class="nav-btn">
+                        📖 Library
+                    </a>
+                    <a href="../favorites/index.html" class="nav-btn">
+                        ❤️ Favorites
+                    </a>
+                    <a href="../category/index.html" class="nav-btn active">
+                        📚 Categories
+                    </a>
+                    <a href="../ranking/index.html" class="nav-btn">
+                        🏆 Rankings
+                    </a>
+                    <a href="../search/index.html" class="nav-btn">
+                        🔍 Search
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Category Navigation -->
+                <div class="category-navigation">
+                    <button 
+                        class="category-tab" 
+                        :class="{ active: selectedCategoryFilter === 'all' }" 
+                        @click="setCategoryFilter('all')"
+                    >
+                        🌟 All Categories
+                    </button>
+                    <button 
+                        v-for="category in categories" 
+                        :key="category"
+                        class="category-tab" 
+                        :class="{ active: selectedCategoryFilter === category }" 
+                        @click="setCategoryFilter(category)"
+                    >
+                        {{ getCategoryIcon(category) }} {{ category }}
+                    </button>
+                </div>
+
+                <!-- Category Statistics -->
+                <div class="category-stats">
+                    <div class="stats-item">
+                        <span class="stats-number">{{ filteredCategoryNovels.length }}</span>
+                        <span class="stats-label">Total Novels</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-number">{{ completedCount }}</span>
+                        <span class="stats-label">Completed</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-number">{{ ongoingCount }}</span>
+                        <span class="stats-label">Ongoing</span>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div v-if="loading" class="loading">Loading novels...</div>
+
+                <!-- Empty State -->
+                <div v-else-if="filteredCategoryNovels.length === 0" class="empty-state">
+                    <p>😢 No novels in this category</p>
+                    <p>Try other categories!</p>
+                </div>
+
+                <!-- Novels Grid -->
+                <div v-else class="novels-grid">
+                    <div v-for="novel in filteredCategoryNovels" :key="novel.id" class="novel-card" @click="startReading(novel)">
+                        <img :src="novel.cover" :alt="novel.title" class="novel-cover">
+                        <div class="novel-title">{{ novel.title }}</div>
+                        <div class="novel-author">Author: {{ novel.author }}</div>
+                        <div class="novel-category">{{ translateCategory(novel.category) }}</div>
+                        <div class="novel-description">{{ novel.description }}</div>
+                        <div class="novel-stats">
+                            <span class="read-count">Reads: {{ formatReadCount(novel.readCount) }}</span>
+                            <span class="status" :class="{ completed: novel.isCompleted, ongoing: !novel.isCompleted }">
+                                {{ novel.isCompleted ? 'Completed' : 'Ongoing' }}
+                            </span>
+                        </div>
+                        <button 
+                            class="favorite-btn" 
+                            :class="{ favorited: novel.isFavorited }"
+                            @click.stop="toggleFavorite(novel.id)"
+                        >
+                            {{ novel.isFavorited ? '💖 Favorited' : '🤍 Add to Favorites' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

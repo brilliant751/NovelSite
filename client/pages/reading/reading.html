@@ -1,0 +1,144 @@
+<!DOC    <title>Novel Reading - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css"">E html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novel Reading - Novel Website</title>
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/ads.css">
+    <script src="../../assets/js/vue.global.js"></script>
+    <script src="../../assets/js/axios.min.js"></script>
+</head>
+<body>
+    <div id="reading-app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="reading-header">
+                    <button class="back-btn" @click="backToBookshelf">← Back to Library</button>
+                    <h2 class="novel-title" v-if="currentNovel">{{ currentNovel.title }}</h2>
+                    <span class="novel-author" v-if="currentNovel">Author: {{ currentNovel.author }}</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="reading-content">
+                    <!-- Chapter List -->
+                    <div class="chapters-sidebar">
+                        <h3>Table of Contents</h3>
+                        <div v-if="loading && !chapters.length" class="loading">Loading...</div>
+                        <ul v-else class="chapters-list">
+                            <li 
+                                v-for="chapter in chapters" 
+                                :key="chapter.id"
+                                :class="{ active: currentChapter && currentChapter.id === chapter.id }"
+                                @click="readChapter(chapter.id)"
+                                class="chapter-item"
+                            >
+                                {{ chapter.title }}
+                            </li>
+                        </ul>
+                        
+                        <!-- Chapter List Bottom Ad -->
+                        <div class="reading-ad" @click="handleAdClick('chapters-bottom')">
+                            <span class="ad-label">Ad</span>
+                            <div class="ad-content">
+                                <h4>📢 Ad Space Available</h4>
+                                <p>Chapter list bottom ad space, perfect for showcasing your products and services</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter Content -->
+                    <div class="chapter-content">
+                        <div v-if="loading && !currentChapter" class="loading">Loading chapter...</div>
+                        <div v-else-if="currentChapter && currentChapter.content" class="chapter-text">
+                            <h2 class="chapter-title">{{ currentChapter.title }}</h2>
+                            
+                            <!-- Copyright Protection Notice -->
+                            <div class="copyright-notice" style="text-align: center; padding: 10px; background: var(--bg-secondary); border-radius: 5px; margin-bottom: 20px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--border-primary);">
+                                📚 Content protected by copyright · Copying and distribution prohibited
+                            </div>
+                            
+                            <!-- Eye Protection Mode Feature -->
+                            <div class="eye-protection-panel" @click="toggleNightMode" 
+                                 :style="{
+                                     background: isNightMode ? 'var(--bg-secondary)' : 'var(--bg-card)',
+                                     borderColor: isNightMode ? 'var(--border-accent)' : 'var(--border-primary)'
+                                 }"
+                                 style="border-radius: 8px; padding: 12px; margin: 15px 0; cursor: pointer; transition: all 0.3s ease; border: 1px solid;">
+                                <div class="function-content" style="display: flex; align-items: center; gap: 12px;">
+                                    <img :src="eyeProtectionMode.image" :alt="eyeProtectionMode.title" style="width: 60px; height: 36px; object-fit: cover; border-radius: 5px;">
+                                    <div class="function-text">
+                                        <h4 :style="{color: isNightMode ? 'var(--text-accent)' : 'var(--text-primary)'}" style="margin-bottom: 4px; font-size: 14px;">
+                                            {{ eyeProtectionMode.title }}
+                                        </h4>
+                                        <p :style="{color: isNightMode ? 'var(--text-secondary)' : 'var(--text-secondary)'}" style="font-size: 12px; margin: 0;">
+                                            {{ eyeProtectionMode.description }}
+                                        </p>
+                                    </div>
+                                    <span :style="{color: isNightMode ? 'var(--text-accent)' : 'var(--text-primary)'}" style="margin-left: auto; font-size: 12px;">
+                                        {{ isNightMode ? '☀️ Switch to Day →' : '🌙 Switch to Night →' }}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="chapter-body" v-html="formatChapterContent(currentChapter.content)">
+                            </div>
+                            
+                            <!-- Chapter Navigation -->
+                            <div class="chapter-navigation">
+                                <button 
+                                    class="nav-btn prev-btn" 
+                                    @click="readPreviousChapter"
+                                    :disabled="!hasPreviousChapter"
+                                >
+                                    ← Previous
+                                </button>
+                                <button 
+                                    class="nav-btn next-btn" 
+                                    @click="readNextChapter"
+                                    :disabled="!hasNextChapter"
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                            
+                            <!-- Chapter End Ad -->
+                            <div class="reading-ad-bottom">
+                                <span class="ad-label">Ad</span>
+                                <div class="ad-content" @click="handleAdClick('chapter-bottom')">
+                                    <h3>📢 Ad Space Available</h3>
+                                    <p>Chapter end ad space, the best display opportunity after readers finish reading</p>
+                                </div>
+                                <div class="ad-actions">
+                                    <button 
+                                        class="collect-btn" 
+                                        @click.stop="collectCurrentNovel"
+                                        :class="{ collected: currentNovel && currentNovel.isFavorited }"
+                                    >
+                                        {{ currentNovel && currentNovel.isFavorited ? 'Collected' : 'Add to Collection' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="empty-state">
+                            <p>Please select a chapter to start reading</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="reading.js"></script>
+</body>
+</html>

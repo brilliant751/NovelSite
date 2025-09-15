@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+<defs>
+
+</defs>
+<rect width="256" height="256" fill="none"/>
+<path d="M20 128 C64 64 192 64 236 128 C192 192 64 192 20 128 Z" fill="none" stroke="currentColor" stroke-width="12"/>
+<circle cx="128" cy="128" r="26" fill="none" stroke="currentColor" stroke-width="10"/>
+<circle cx="128" cy="128" r="10" fill="currentColor"/>
+</svg>
